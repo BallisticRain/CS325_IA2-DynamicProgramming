@@ -45,20 +45,18 @@ def read_cost_matrix(fns=''):
             if line_idx == 0:
                 # The first row: column headers for Y
                 ys = [y.strip() for y in parts[1:]]
+                for idx, y in enumerate(ys):
+                    y_indexdict[y] = idx
             else:
                 # Subsequent rows: x symbol + costs
                 x = parts[0].strip()
                 x_indexdict[x] = line_idx - 1
-
-                row_costs = []
-                for j, val in enumerate(parts[1:]):
-                    y_indexdict[ys[j]] = j
-                    row_costs.append(int(val.strip()))
-                loss_matrix.append(row_costs)
-
+                costs = [int(c.strip()) for c in parts[1:]]
+                loss_matrix.append(costs)
             line_idx += 1
 
     return loss_matrix, x_indexdict, y_indexdict
+
 
 def get_cost(ax, ay, loss_matrix, x_indexdict, y_indexdict):
     """
