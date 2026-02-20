@@ -22,11 +22,11 @@ def main():
     print("=" * 70)
     print()
     print("This analysis will test the following requirements:")
-    print("✓ Sequence lengths: 500, 1000, 2000, 4000, 5000")
-    print("✓ 10 random pairs per length")
-    print("✓ Alphabet: A, G, T, C (DNA sequences)")
-    print("✓ Polynomial order verification (O(n^2) expected)")
-    print("✓ Statistical analysis with standard deviation")
+    print(" Sequence lengths: 500, 1000, 2000, 4000, 5000")
+    print(" 10 random pairs per length")
+    print(" Alphabet: A, G, T, C (DNA sequences)")
+    print(" Polynomial order verification (O(n^2) expected)")
+    print(" Statistical analysis with standard deviation")
     print()
     
     # Estimate runtime
@@ -65,7 +65,6 @@ def main():
         for length, avg_time, std_dev in results:
             print(f"  Length {length:4d}: {avg_time:.6f}s +/- {std_dev:.6f}s")
         print()
-        print("Use these files for your assignment report!")
         
     except Exception as e:
         print(f"Error during analysis: {e}")

@@ -1,9 +1,8 @@
 # CS 325 - Edit Distance Algorithm Pseudocode
 ## Enhanced Wagner-Fischer Algorithm with Backtracking
 
-### Author: Abraham Smith
+### Author: Abraham Smith, Adam Ewert
 ### Date: 2/12/2026
-
 ---
 
 ## Algorithm Overview

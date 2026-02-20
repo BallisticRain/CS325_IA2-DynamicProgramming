@@ -41,6 +41,99 @@ python3 runtime_analysis.py --plot
 python3 runtime_analysis.py --test
 ```
 
+## Graders Guide
+
+This section provides step-by-step instructions for testing and evaluating the assignment.
+
+### Prerequisites
+- **Terminal access** to the project directory
+- **Optional**: matplotlib for plot generation (`pip install matplotlib`)
+
+### Step 1: Test Basic Implementation (2 minutes)
+```bash
+
+# Test main implementation on provided dataset
+python3 edit_distance.py
+
+# Expected output: "Successfully processed all sequences. Results written to imp2output.txt"
+```
+** Success Indicator**: No errors, processes 100 sequence pairs, creates `imp2output.txt`
+
+### Step 2: Validate Correctness (30 seconds)
+```bash
+# Run validation against reference solution
+python3 check_cost.py -c imp2cost.txt -o imp2output.txt -s imp2output_our.txt
+
+# Expected output: "Primary file cost-check failures: 0"
+```
+** Success Indicator**: 0 cost-check failures, 0 solution mismatches
+
+### Step 3: Run Empirical Analysis (5-15 minutes)
+```bash
+# Full empirical runtime analysis (assignment-specific)
+python3 run_empirical_analysis.py
+
+# When prompted, type 'y' to continue
+# This tests lengths: 500, 1000, 2000, 4000, 5000 (10 pairs each)
+```
+** Success Indicators**: 
+- Clear runtime progression (increasing with sequence length)
+- Generates `empirical_results.csv` and `empirical_runtime.png`
+- Shows polynomial order confirmation
+
+### Step 4: Quick Verification Commands
+```bash
+# Check generated files exist
+ls -la *.txt *.csv *.png
+
+# View empirical results summary
+head -n 10 empirical_results.csv
+
+# Check first few validation results
+head -n 5 cost_check_results.txt
+```
+
+### Expected File Outputs
+
+| File | Purpose | Expected Content |
+|------|---------|------------------|
+| `imp2output.txt` | Algorithm results | 100 lines, format: `seq1,seq2:cost` |
+| `empirical_results.csv` | Runtime data | 5 rows (lengths 500-5000) with timing data |
+| `cost_check_results.txt` | Validation log | All lines: "Primary cost check passed" |
+| `empirical_runtime.png` | Performance plots | Linear and log-log runtime visualizations |
+
+### Benchmarks for Evaluation
+
+**Implementation Correctness:**
+-  **0 cost-check failures** (mandatory requirement)
+-  **100% alignment accuracy** vs reference solution
+
+**Performance Requirements:**
+-  **O(n²) complexity**: Runtime should scale quadratically
+-  **Statistical rigor**: 10 trials per length, includes std deviation
+-  **Required lengths**: Tests 500, 1000, 2000, 4000, 5000 characters
+
+**Code Quality:**
+-  **No runtime errors** on standard inputs
+-  **Proper DNA alphabet**: Uses A, G, T, C sequences
+-  **Complete documentation**: Includes complexity analysis comments
+
+### Troubleshooting
+
+**Issue**: "ModuleNotFoundError: matplotlib"
+- **Solution**: Run `pip install matplotlib` or skip plot generation
+
+**Issue**: "Permission denied" errors  
+- **Solution**: Ensure files are readable/writable: `chmod +r *.txt`
+
+**Issue**: Empirical analysis takes too long
+- **Expected**: 5-15 minutes depending on system (length 5000 sequences take time)
+- **Alternative**: Check existing `empirical_results.csv` for previous run data
+
+**Issue**: Cost check failures
+- **Troubleshoot**: Verify `imp2cost.txt`, `imp2input.txt`, `imp2output_our.txt` are present and unmodified
+
+
 ## Validation Results
 
 The implementation passes all tests:
@@ -83,34 +176,7 @@ The implementation passes all tests:
 - **Empirical runtime** - Complete experiments with polynomial order plots
 - **Asymptotic analysis** - Accurate O(mn) time complexity description
 - **Pseudocode** - Enhanced algorithm specification with backtracking
-- **Report template** - Comprehensive analysis framework
 
-## Usage Examples
-
-### Basic Usage
-```python
-from edit_distance import EditDistance, read_cost_matrix
-
-# Load cost matrix
-cost_matrix, x_chars, y_chars = read_cost_matrix('imp2cost.txt')
-calculator = EditDistance(cost_matrix, x_chars, y_chars)
-
-# Align sequences
-seq1, seq2 = "ATGC", "AGCC"  
-aligned1, aligned2, cost = calculator.align_sequences(seq1, seq2)
-print(f"{aligned1},{aligned2}:{cost}")
-```
-
-### Empirical Runtime Analysis
-```python
-from runtime_analysis import run_empirical_analysis, create_empirical_plot
-
-# Run analysis with assignment specifications
-results = run_empirical_analysis('imp2cost.txt')
-
-# Create polynomial order visualization
-create_empirical_plot(results)
-```
 
 ## Dependencies
 
@@ -125,14 +191,6 @@ Running the empirical analysis generates:
 - `empirical_results.csv` - Detailed runtime data for required lengths
 - `empirical_runtime.png` - Polynomial order visualization (linear and log-log plots)
 - `cost_check_results.txt` - Validation log from check_cost.py
-
-## Key Achievements
-
-1. **Perfect Accuracy**: 0 failures against reference solutions
-2. **Optimal Complexity**: Confirmed O(mn) theoretical analysis
-3. **Comprehensive Testing**: Automated validation and performance analysis
-4. **Production Ready**: Handles edge cases and arbitrary input sizes
-5. **Well Documented**: Complete pseudocode and analysis framework
 
 ## References
 

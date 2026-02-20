@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 CS 325 - Implementation Assignment 2: Edit Distance with Dynamic Programming
-Author: Abraham Smith
+Author: Abraham Smith, Adam Ewert
 
 This module implements the edit distance algorithm using dynamic programming
 with an arbitrary cost matrix. It includes backtracking to generate the
@@ -18,9 +18,13 @@ class EditDistance:
     """
     Edit Distance calculator with custom cost matrix support.
     
-    This class implements the Wagner-Fischer algorithm for computing edit distance
+    This class implements the edit distance algortithm using dynamic programming
     with arbitrary substitution/insertion/deletion costs, and provides backtracking
     to reconstruct the optimal alignment.
+    
+    Algorithm Complexity:
+    - Time: O(mn) for sequences of length m and n
+    - Space: O(mn) for the dynamic programming table
     """
     
     def __init__(self, cost_matrix: List[List[int]], x_chars: Dict[str, int], y_chars: Dict[str, int]):
@@ -53,6 +57,15 @@ class EditDistance:
     def compute_edit_distance(self, seq_x: str, seq_y: str) -> Tuple[int, List[List[int]]]:
         """
         Compute the minimum edit distance between two sequences.
+        
+        Time Complexity: O(mn) where m = len(seq_x), n = len(seq_y)
+        - Creates (m+1) × (n+1) DP table: O(mn) space allocation
+        - Base case initialization: O(m + n) operations  
+        - DP table filling: O(mn) operations, each cell computed in O(1)
+        - Total: O(mn + m + n) = O(mn)
+        
+        Space Complexity: O(mn)
+        - DP table storage: (m+1) × (n+1) integers
         
         Args:
             seq_x: First sequence
@@ -97,6 +110,15 @@ class EditDistance:
     def backtrack_alignment(self, seq_x: str, seq_y: str, dp: List[List[int]]) -> Tuple[str, str]:
         """
         Backtrack through the DP table to construct the optimal alignment.
+        
+        Time Complexity: O(m + n) where m = len(seq_x), n = len(seq_y)
+        - Worst case: trace path from dp[m][n] to dp[0][0]
+        - Maximum path length: m + n steps (all deletions + all insertions)
+        - Each step: O(1) cost computation and decision
+        
+        Space Complexity: O(m + n) 
+        - Aligned sequence storage: at most m + n characters each
+        - No additional DP table allocation (uses existing table)
         
         Args:
             seq_x: First sequence
@@ -152,6 +174,16 @@ class EditDistance:
     def align_sequences(self, seq_x: str, seq_y: str) -> Tuple[str, str, int]:
         """
         Compute optimal alignment and minimum edit distance.
+        
+        Overall Time Complexity: O(mn) where m = len(seq_x), n = len(seq_y)
+        - DP computation: O(mn) [dominates]
+        - Backtracking: O(m + n)
+        - Total: O(mn + m + n) = O(mn)
+        
+        Overall Space Complexity: O(mn)
+        - DP table: O(mn) [dominates]
+        - Alignment storage: O(m + n)
+        - Total: O(mn + m + n) = O(mn)
         
         Args:
             seq_x: First sequence
